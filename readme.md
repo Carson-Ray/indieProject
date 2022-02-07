@@ -21,5 +21,11 @@ recent updates. What they are looking for is a dynamically updated site where th
 view these stat values and perform mock damage calculations, even when updates are made to
 the game and stat values change.
 
+#### User Story 3 (Specifically for the MVP)
+A casual player is looking to be more effective while playing the game with their friends.
+They think a good start would be to have some general knowledge of stat values of the 
+different characters. The site they are looking for would deliver, at minimum, the stat values
+in a comprehensive table that they are able to easily read as a reference point. 
+
 
 
