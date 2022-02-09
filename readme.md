@@ -1,10 +1,12 @@
 #### Problem Statement
-There are no comprehensive tools for damage calculation/battle simulation for the
-game Pokemon Unite.
+There are no comprehensive tools (Ability to create saved characters, update/delete characters, save battle history) 
+for damage calculation/battle simulation for the game Pokemon Unite.
 
 #### Solution Statement
 A program designed to use character stats to give estimated damage calculations
-that can be used to predict the outcomes of fights.
+that can be used to predict the outcomes of fights. The program has the ability to
+create an account in order to create/update/delete saved characters and to save
+previous battle data for reference.
 
 #### User Story 1
 A player new to the game has found a lot of enjoyment in playing, and is looking to further
