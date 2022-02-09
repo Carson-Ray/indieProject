@@ -35,5 +35,9 @@ in a comprehensive table that they are able to easily read as a reference point.
 seasoned player, the ability to create, save, and delete characters is important so
 that they are able to keep track of their characters/battles.
 
+#### Technologies
+IntelliJ IDEA
+AWS
+
 
 
