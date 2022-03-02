@@ -22,3 +22,16 @@ my time working through the exercise and activity, and have not made much progre
 the indie project as of yet.
 
 #### Week 05
+6 Hours worked
+
+The week went well. Took longer than intended to finish the exercise due to having moved, but overall I
+feel that I understand the concepts and can implement them into the indie project.
+
+#### Week 06
+
+3 hours worked
+
+This week was good, despite some issues I ran in to when trying to get the database set up
+in AWS. Overall I feel comfortable with the concepts, just need to keep practicing and
+implementing them in the indie project.
+
