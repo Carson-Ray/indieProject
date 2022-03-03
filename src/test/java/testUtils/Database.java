@@ -124,13 +124,15 @@ public class Database {
             connect();
             stmt = connection.createStatement();
 
-            while (true) {
-                String sql = br.readLine();
-                if (sql == null) {
-                    break;
+            String sql = "";
+            while (br.ready()) {
+                char inputValue = (char)br.read();
+                if(inputValue == ';') {
+                    stmt.executeUpdate(sql);
+                    sql = "";
+                } else {
+                    sql += inputValue;
                 }
-                stmt.executeUpdate(sql);
-
             }
 
         } catch (SQLException se) {
