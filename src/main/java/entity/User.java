@@ -36,6 +36,9 @@ public class User {
     @Column(name = "id")
     private int id;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Pokemon> pokemon = new HashSet<>();
+
     /**
      * Instantiates a new User.
      */
@@ -136,6 +139,44 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Gets pokemon.
+     *
+     * @return the pokemon
+     */
+    public Set<Pokemon> getPokemon() {
+        return pokemon;
+    }
+
+    /**
+     * Sets pokemon.
+     *
+     * @param pokemon the pokemon
+     */
+    public void setPokemon(Set<Pokemon> pokemon) {
+        this.pokemon = pokemon;
+    }
+
+    /**
+     * Add pokemon.
+     *
+     * @param newPokemon the pokemon
+     */
+    public void addPokemon(Pokemon newPokemon) {
+        pokemon.add(newPokemon);
+        newPokemon.setUser(this);
+    }
+
+    /**
+     * Remove pokemon.
+     *
+     * @param newPokemon the pokemon
+     */
+    public void removeOrder(Pokemon newPokemon) {
+        pokemon.remove(newPokemon);
+        newPokemon.setUser(null);
     }
 
 

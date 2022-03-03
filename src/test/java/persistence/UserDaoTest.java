@@ -1,5 +1,6 @@
 package persistence;
 
+import entity.Pokemon;
 import entity.User;
 import testUtils.Database;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +60,27 @@ class UserDaoTest {
         assertNotEquals(0,id);
         User insertedUser = dao.getById(id);
         assertEquals(newUser, insertedUser);
+    }
+
+    /**
+     * Verify successful insert of a user
+     */
+    @Test
+    void insertWithPokemonSuccess() {
+
+        User newUser = new User("Pablo", "Picasso", "ppicasso", "testpass6");
+
+        Pokemon pokemon = new Pokemon("Blastoise", "Defender", newUser);
+
+        newUser.addPokemon(pokemon);
+
+        int id = dao.insert(newUser);
+
+        assertNotEquals(0,id);
+        User insertedUser = dao.getById(id);
+        assertEquals("Pablo", insertedUser.getFirstName());
+        assertEquals(1, insertedUser.getPokemon().size());
+        assertTrue(newUser.equals(insertedUser));
     }
 
     /**
