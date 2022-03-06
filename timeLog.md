@@ -35,3 +35,15 @@ This week was good, despite some issues I ran in to when trying to get the datab
 in AWS. Overall I feel comfortable with the concepts, just need to keep practicing and
 implementing them in the indie project.
 
+#### Week 07
+
+7 Hours worked
+
+This week went fairly well, especially considering I had not yet implemented
+any of the exercises within my indie-project prior to this week. I spent a good
+amount of time working on the second checkpoint for the project, and feel pretty good
+about how it turned out. I was able to implement two Dao classes and have them fully
+unit tested and ready to go with my database. I feel a lot better now about where I
+am with the project, and feel that I will now be able to more easily move forward
+on implementing new features into it.
+
