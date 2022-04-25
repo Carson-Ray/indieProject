@@ -89,6 +89,10 @@ class UserDaoTest {
     @Test
     void deleteSuccess() {
         genericDao.delete(genericDao.getById(3));
+
+        GenericDao pokeDao = new GenericDao(Pokemon.class);
+
+        assertNull(pokeDao.getById(3));
         assertNull(genericDao.getById(3));
     }
 

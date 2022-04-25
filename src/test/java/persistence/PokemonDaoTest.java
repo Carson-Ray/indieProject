@@ -81,7 +81,11 @@ class PokemonDaoTest {
     @Test
     void deleteSuccess() {
         genericDao.delete(genericDao.getById(3));
+
+        GenericDao userDao = new GenericDao(User.class);
+
         assertNull(genericDao.getById(3));
+        assertNotNull(userDao.getById(3));
     }
 
     /**
