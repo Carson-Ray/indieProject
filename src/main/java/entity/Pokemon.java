@@ -77,7 +77,7 @@ public class Pokemon {
      *
      * @param role the role
      */
-    public void setLastName(String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
