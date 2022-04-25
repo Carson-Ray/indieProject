@@ -1,7 +1,6 @@
 package persistence;
 
 import entity.Pokemon;
-import entity.Pokemon;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +20,21 @@ public class PokemonTest {
 
         assertEquals(expectedRole, actualRole);
 
+
+    }
+
+    @Test
+    void getName() {
+
+        Pokemon pokemon = new Pokemon();
+
+        pokemon.setName("Hippowdon");
+
+        String expectedName = "Hippowdon";
+
+        String actualName = pokemon.getName();
+
+        assertEquals(expectedName, actualName);
 
     }
 
