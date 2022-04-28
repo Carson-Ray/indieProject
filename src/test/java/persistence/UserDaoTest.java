@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class UserDaoTest {
 
-    UserDao dao;
-    GenericDao genericDao;
+    GenericDao pokeDao;
+    GenericDao userDao;
 
     /**
      * Creating the dao.
      */
     @BeforeEach
     void setUp() {
-        dao = new UserDao();
-        genericDao = new GenericDao(User.class);
+        userDao = new GenericDao(User.class);
+        pokeDao = new GenericDao(Pokemon.class);
 
         Database database = Database.getInstance();
         database.runSQL("dump.sql");
@@ -35,7 +35,7 @@ class UserDaoTest {
      */
     @Test
     void getAllUsersSuccess() {
-        List<User> users = genericDao.getAll();
+        List<User> users = userDao.getAll();
         assertEquals(5, users.size());
     }
 
@@ -44,7 +44,7 @@ class UserDaoTest {
      */
     @Test
     void getByIdSuccess() {
-        User retrievedUser = (User)genericDao.getById(1);
+        User retrievedUser = (User) userDao.getById(1);
         assertNotNull(retrievedUser);
         assertEquals("Carson", retrievedUser.getFirstName());
     }
@@ -56,9 +56,9 @@ class UserDaoTest {
     void insertSuccess() {
 
         User newUser = new User("Pablo", "Picasso", "ppicasso", "testpass6");
-        int id = genericDao.insert(newUser);
+        int id = userDao.insert(newUser);
         assertNotEquals(0,id);
-        User insertedUser = (User)genericDao.getById(id);
+        User insertedUser = (User) userDao.getById(id);
         assertEquals(newUser, insertedUser);
     }
 
@@ -74,10 +74,10 @@ class UserDaoTest {
 
         newUser.addPokemon(pokemon);
 
-        int id = genericDao.insert(newUser);
+        int id = userDao.insert(newUser);
 
         assertNotEquals(0,id);
-        User insertedUser = (User)genericDao.getById(id);
+        User insertedUser = (User) userDao.getById(id);
         assertEquals("Pablo", insertedUser.getFirstName());
         assertEquals(1, insertedUser.getPokemon().size());
         assertTrue(newUser.equals(insertedUser));
@@ -88,12 +88,10 @@ class UserDaoTest {
      */
     @Test
     void deleteSuccess() {
-        genericDao.delete(genericDao.getById(3));
-
-        GenericDao pokeDao = new GenericDao(Pokemon.class);
+        userDao.delete(userDao.getById(3));
 
         assertNull(pokeDao.getById(3));
-        assertNull(genericDao.getById(3));
+        assertNull(userDao.getById(3));
     }
 
     /**
@@ -102,10 +100,10 @@ class UserDaoTest {
     @Test
     void updateSuccess() {
         String newLastName = "Smith";
-        User userToUpdate = (User)genericDao.getById(3);
+        User userToUpdate = (User) userDao.getById(3);
         userToUpdate.setLastName(newLastName);
-        genericDao.saveOrUpdate(userToUpdate);
-        User retrievedUser = (User)genericDao.getById(3);
+        userDao.saveOrUpdate(userToUpdate);
+        User retrievedUser = (User) userDao.getById(3);
         assertEquals(userToUpdate, retrievedUser);
     }
 

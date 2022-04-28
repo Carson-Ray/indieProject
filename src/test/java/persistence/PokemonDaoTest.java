@@ -19,16 +19,16 @@ class PokemonDaoTest {
     /**
      * The Dao.
      */
-    PokemonDao dao;
-    GenericDao genericDao;
+    GenericDao userDao;
+    GenericDao pokeDao;
 
     /**
      * Creating the dao.
      */
     @BeforeEach
     void setUp() {
-        dao = new PokemonDao();
-        genericDao = new GenericDao(Pokemon.class);
+        pokeDao = new GenericDao(Pokemon.class);
+        userDao = new GenericDao(User.class);
 
         Database database = Database.getInstance();
         database.runSQL("dump.sql");
@@ -40,7 +40,7 @@ class PokemonDaoTest {
      */
     @Test
     void getAllPokemonSuccess() {
-        List<Pokemon> pokemon = genericDao.getAll();
+        List<Pokemon> pokemon = pokeDao.getAll();
         assertEquals(5, pokemon.size());
     }
 
@@ -49,7 +49,7 @@ class PokemonDaoTest {
      */
     @Test
     void getByIdSuccess() {
-        Pokemon retrievedPokemon = (Pokemon)genericDao.getById(1);
+        Pokemon retrievedPokemon = (Pokemon) pokeDao.getById(1);
         assertNotNull(retrievedPokemon);
         assertEquals("Blissey", retrievedPokemon.getName());
     }
@@ -60,15 +60,14 @@ class PokemonDaoTest {
     @Test
     void insertSuccess() {
 
-        UserDao userDao = new UserDao();
-        User user = userDao.getById(1);
+        User user = (User)userDao.getById(1);
         Pokemon newPokemon = new Pokemon("Garchomp", "All-Rounder", user);
         user.addPokemon(newPokemon);
 
-        int id = genericDao.insert(newPokemon);
+        int id = pokeDao.insert(newPokemon);
 
         assertNotEquals(0,id);
-        Pokemon insertedPokemon = (Pokemon)genericDao.getById(id);
+        Pokemon insertedPokemon = (Pokemon) pokeDao.getById(id);
         assertEquals("Garchomp", insertedPokemon.getName());
         assertNotNull(insertedPokemon.getUser());
         assertEquals("Carson", insertedPokemon.getUser().getFirstName());
@@ -80,11 +79,11 @@ class PokemonDaoTest {
      */
     @Test
     void deleteSuccess() {
-        genericDao.delete(genericDao.getById(3));
+        pokeDao.delete(pokeDao.getById(3));
 
         GenericDao userDao = new GenericDao(User.class);
 
-        assertNull(genericDao.getById(3));
+        assertNull(pokeDao.getById(3));
         assertNotNull(userDao.getById(3));
     }
 
@@ -94,10 +93,10 @@ class PokemonDaoTest {
     @Test
     void updateSuccess() {
         String name = "Eldegoss";
-        Pokemon pokemonToUpdate = (Pokemon)genericDao.getById(1);
+        Pokemon pokemonToUpdate = (Pokemon) pokeDao.getById(1);
         pokemonToUpdate.setName(name);
-        genericDao.saveOrUpdate(pokemonToUpdate);
-        Pokemon retrievedPokemon = (Pokemon)genericDao.getById(1);
+        pokeDao.saveOrUpdate(pokemonToUpdate);
+        Pokemon retrievedPokemon = (Pokemon) pokeDao.getById(1);
         assertEquals(name, retrievedPokemon.getName());
     }
 
