@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 @WebServlet(
         urlPatterns = {"/auth"}
 )
-// TODO if something goes wrong it this process, route to an error page. Currently, errors are only caught and logged.
 /**
  * Inspired by: https://stackoverflow.com/questions/52144721/how-to-get-access-token-using-client-credentials-using-java-code
  */
@@ -78,7 +77,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String userName = null;
 
         if (authCode == null) {
-            //TODO forward to an error page or back to the login
+            RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
+            dispatcher.forward(req, resp);
         } else {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
@@ -87,10 +87,12 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.setAttribute("userName", userName);
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
-                //TODO forward to an error page
+                RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
+                dispatcher.forward(req, resp);
             } catch (InterruptedException e) {
                 logger.error("Error getting token from Cognito oauth url " + e.getMessage(), e);
-                //TODO forward to an error page
+                RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
+                dispatcher.forward(req, resp);
             }
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher("searchUser?searchTerm=&submit=viewAll");
