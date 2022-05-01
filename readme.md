@@ -36,8 +36,11 @@ seasoned player, the ability to create, save, and delete characters is important
 that they are able to keep track of their characters/battles.
 
 #### Technologies
-IntelliJ IDEA
-AWS
+*IntelliJ IDEA
+*AWS Elastic Beanstalk
+*AWS IAM
+*AWS API Gateway
+*AWS DynamoDB
 
 
 

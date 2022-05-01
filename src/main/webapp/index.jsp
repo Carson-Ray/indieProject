@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="en">
     <c:import url="head.jsp"/>
+    <c:import url="navbar.jsp"/>
 <body>
 <main>
     <h1>Hello, world!</h1>
