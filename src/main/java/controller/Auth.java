@@ -35,6 +35,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Base64;
 
 
 @WebServlet(
@@ -77,8 +78,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String userName = null;
 
         if (authCode == null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
-            dispatcher.forward(req, resp);
+            resp.sendRedirect("error.jsp");
         } else {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
@@ -87,12 +87,10 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.setAttribute("userName", userName);
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
-                RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
-                dispatcher.forward(req, resp);
+                resp.sendRedirect("error.jsp");
             } catch (InterruptedException e) {
                 logger.error("Error getting token from Cognito oauth url " + e.getMessage(), e);
-                RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
-                dispatcher.forward(req, resp);
+                resp.sendRedirect("error.jsp");
             }
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher("searchUser?searchTerm=&submit=viewAll");
@@ -175,12 +173,15 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
         // TODO decide what you want to do with the info!
         // for now, I'm just returning username for display back to the browser
+
+        // Parse various fields
+        String username = jwt.getClaim("user_name").asString();
+        String firstName = jwt.getClaim("first_name").asString();
+        String lastName = jwt.getClaim("last_name").asString();
+        String password = jwt.getClaim("password").asString();
+        String[] groups = jwt.getClaim("cognito:groups").asArray(String.class);
+
         return userName;
-//        // Parse various fields
-//        String username = jwt.getClaim("sub").asString();
-//        String email = jwt.getClaim("email").asString();
-//        String phone = jwt.getClaim("phone_number").asString();
-//        String[] groups = jwt.getClaim("cognito:groups").asArray(String.class);
     }
 
     /** Create the auth url and use it to build the request.
