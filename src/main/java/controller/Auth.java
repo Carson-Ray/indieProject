@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import auth.*;
+import entity.*;
 import util.PropertiesLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,7 +79,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String userName = null;
 
         if (authCode == null) {
-            resp.sendRedirect("error.jsp");
+            resp.sendRedirect("/error.jsp");
         } else {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
@@ -87,13 +88,13 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.setAttribute("userName", userName);
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
-                resp.sendRedirect("error.jsp");
+                resp.sendRedirect("/error.jsp");
             } catch (InterruptedException e) {
                 logger.error("Error getting token from Cognito oauth url " + e.getMessage(), e);
-                resp.sendRedirect("error.jsp");
+                resp.sendRedirect("/error.jsp");
             }
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("searchUser?searchTerm=&submit=viewAll");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/user-home.jsp");
         dispatcher.forward(req, resp);
 
     }
@@ -178,7 +179,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String username = jwt.getClaim("user_name").asString();
         String firstName = jwt.getClaim("first_name").asString();
         String lastName = jwt.getClaim("last_name").asString();
-        String password = jwt.getClaim("password").asString();
         String[] groups = jwt.getClaim("cognito:groups").asArray(String.class);
 
         return userName;
