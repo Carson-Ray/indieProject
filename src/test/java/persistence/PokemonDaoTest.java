@@ -1,6 +1,6 @@
 package persistence;
 
-import entity.Pokemon;
+import entity.UserPokemon;
 import entity.User;
 import testUtils.Database;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * The type Pokemon dao test.
+ * The type UserPokemon dao test.
  */
 class PokemonDaoTest {
 
@@ -27,7 +27,7 @@ class PokemonDaoTest {
      */
     @BeforeEach
     void setUp() {
-        pokeDao = new GenericDao(Pokemon.class);
+        pokeDao = new GenericDao(UserPokemon.class);
         userDao = new GenericDao(User.class);
 
         Database database = Database.getInstance();
@@ -40,7 +40,7 @@ class PokemonDaoTest {
      */
     @Test
     void getAllPokemonSuccess() {
-        List<Pokemon> pokemon = pokeDao.getAll();
+        List<UserPokemon> pokemon = pokeDao.getAll();
         assertEquals(5, pokemon.size());
     }
 
@@ -49,7 +49,7 @@ class PokemonDaoTest {
      */
     @Test
     void getByIdSuccess() {
-        Pokemon retrievedPokemon = (Pokemon) pokeDao.getById(1);
+        UserPokemon retrievedPokemon = (UserPokemon) pokeDao.getById(1);
         assertNotNull(retrievedPokemon);
         assertEquals("Blissey", retrievedPokemon.getName());
     }
@@ -61,13 +61,13 @@ class PokemonDaoTest {
     void insertSuccess() {
 
         User user = (User)userDao.getById(1);
-        Pokemon newPokemon = new Pokemon("Garchomp", "All-Rounder", user);
+        UserPokemon newPokemon = new UserPokemon("Garchomp", "All-Rounder", user);
         user.addPokemon(newPokemon);
 
         int id = pokeDao.insert(newPokemon);
 
         assertNotEquals(0,id);
-        Pokemon insertedPokemon = (Pokemon) pokeDao.getById(id);
+        UserPokemon insertedPokemon = (UserPokemon) pokeDao.getById(id);
         assertEquals("Garchomp", insertedPokemon.getName());
         assertNotNull(insertedPokemon.getUser());
         assertEquals("Carson", insertedPokemon.getUser().getFirstName());
@@ -93,10 +93,10 @@ class PokemonDaoTest {
     @Test
     void updateSuccess() {
         String name = "Eldegoss";
-        Pokemon pokemonToUpdate = (Pokemon) pokeDao.getById(1);
+        UserPokemon pokemonToUpdate = (UserPokemon) pokeDao.getById(1);
         pokemonToUpdate.setName(name);
         pokeDao.saveOrUpdate(pokemonToUpdate);
-        Pokemon retrievedPokemon = (Pokemon) pokeDao.getById(1);
+        UserPokemon retrievedPokemon = (UserPokemon) pokeDao.getById(1);
         assertEquals(name, retrievedPokemon.getName());
     }
 

@@ -3,9 +3,6 @@ package entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -34,7 +31,7 @@ public class User {
     private int id;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Pokemon> pokemon = new HashSet<>();
+    private Set<UserPokemon> pokemon = new HashSet<>();
 
     /**
      * Instantiates a new User.
@@ -133,7 +130,7 @@ public class User {
      *
      * @return the pokemon
      */
-    public Set<Pokemon> getPokemon() {
+    public Set<UserPokemon> getPokemon() {
         return pokemon;
     }
 
@@ -142,7 +139,7 @@ public class User {
      *
      * @param pokemon the pokemon
      */
-    public void setPokemon(Set<Pokemon> pokemon) {
+    public void setPokemon(Set<UserPokemon> pokemon) {
         this.pokemon = pokemon;
     }
 
@@ -151,7 +148,7 @@ public class User {
      *
      * @param newPokemon the pokemon
      */
-    public void addPokemon(Pokemon newPokemon) {
+    public void addPokemon(UserPokemon newPokemon) {
         pokemon.add(newPokemon);
         newPokemon.setUser(this);
     }
@@ -161,7 +158,7 @@ public class User {
      *
      * @param newPokemon the pokemon
      */
-    public void removePokemon(Pokemon newPokemon) {
+    public void removePokemon(UserPokemon newPokemon) {
         pokemon.remove(newPokemon);
         newPokemon.setUser(null);
     }

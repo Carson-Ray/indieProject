@@ -10,7 +10,7 @@ import java.util.Map;
 public class Response {
 
     private Map<String,String> error;
-    private List<Pokemon> pokemonList;
+    private List<PokemonAPI> pokemonList;
 
     /**
      * Instantiates a new Response.
@@ -24,7 +24,7 @@ public class Response {
      *
      * @param entry the entry
      */
-    public void insert(Pokemon entry) {
+    public void insert(PokemonAPI entry) {
         pokemonList.add(entry);
     }
 
@@ -61,7 +61,7 @@ public class Response {
      *
      * @return the definitions
      */
-    public List<Pokemon> getDefinitions() {
+    public List<PokemonAPI> getPokemonList() {
         return pokemonList;
     }
 
@@ -70,19 +70,15 @@ public class Response {
      *
      * @param definitions the definitions
      */
-    public void setDefinitions(List<Pokemon> definitions) {
-        this.pokemonList = definitions;
+    public void setPokemonList(List<PokemonAPI> pokemonList) {
+        this.pokemonList = pokemonList;
     }
 
-    /**
-     * Formats the response as a string.
-     * @return the response as a string.
-     */
     @Override
     public String toString() {
         return "Response{" +
                 "error=" + error +
-                ", definitions=" + pokemonList +
+                ", pokemonList=" + pokemonList +
                 '}';
     }
 }

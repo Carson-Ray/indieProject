@@ -1,6 +1,6 @@
 package persistence;
 
-import entity.Pokemon;
+import entity.UserPokemon;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +10,7 @@ public class PokemonTest {
     @Test
     void getRole() {
 
-        Pokemon pokemon = new Pokemon();
+        UserPokemon pokemon = new UserPokemon();
 
         pokemon.setRole("Speedster");
 
@@ -26,7 +26,7 @@ public class PokemonTest {
     @Test
     void getName() {
 
-        Pokemon pokemon = new Pokemon();
+        UserPokemon pokemon = new UserPokemon();
 
         pokemon.setName("Hippowdon");
 

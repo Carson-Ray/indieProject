@@ -1,6 +1,6 @@
 package persistence;
 
-import entity.Pokemon;
+import entity.UserPokemon;
 import entity.User;
 import testUtils.Database;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ class UserDaoTest {
     @BeforeEach
     void setUp() {
         userDao = new GenericDao(User.class);
-        pokeDao = new GenericDao(Pokemon.class);
+        pokeDao = new GenericDao(UserPokemon.class);
 
         Database database = Database.getInstance();
         database.runSQL("dump.sql");
@@ -70,7 +70,7 @@ class UserDaoTest {
 
         User newUser = new User("Pablo", "Picasso", "ppicasso");
 
-        Pokemon pokemon = new Pokemon("Blastoise", "Defender", newUser);
+        UserPokemon pokemon = new UserPokemon("Blastoise", "Defender", newUser);
 
         newUser.addPokemon(pokemon);
 

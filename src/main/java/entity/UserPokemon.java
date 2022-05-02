@@ -3,12 +3,7 @@ package entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * A class to represent a user.
@@ -17,7 +12,7 @@ import java.util.Set;
  */
 @Entity(name = "Pokemon")
 @Table(name = "pokemon")
-public class Pokemon {
+public class UserPokemon {
     @Column(name = "name")
     private String name;
 
@@ -34,12 +29,12 @@ public class Pokemon {
     private User user;
 
     /**
-     * Instantiates a new Pokemon.
+     * Instantiates a new UserPokemon.
      */
-    public Pokemon() {
+    public UserPokemon() {
     }
 
-    public Pokemon(String name, String role, User user) {
+    public UserPokemon(String name, String role, User user) {
         this.name = name;
         this.role = role;
         this.user = user;
@@ -120,7 +115,7 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "Pokemon{" +
+        return "UserPokemon{" +
                 "name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", user='" + user + '\'' +
@@ -132,7 +127,7 @@ public class Pokemon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pokemon pokemon = (Pokemon) o;
+        UserPokemon pokemon = (UserPokemon) o;
         return id == pokemon.id &&
                 Objects.equals(name, pokemon.name) &&
                 Objects.equals(role, pokemon.role) &&
