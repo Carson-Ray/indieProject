@@ -179,7 +179,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String username = jwt.getClaim("user_name").asString();
         String firstName = jwt.getClaim("first_name").asString();
         String lastName = jwt.getClaim("last_name").asString();
-        String[] groups = jwt.getClaim("cognito:groups").asArray(String.class);
 
         return userName;
     }

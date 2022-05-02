@@ -27,9 +27,6 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "password")
-    private String password;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -51,13 +48,11 @@ public class User {
      * @param firstName the first name
      * @param lastName the last name
      * @param userName the user name
-     * @param password the password
      */
-    public User(String firstName, String lastName, String userName, String password) {
+    public User(String firstName, String lastName, String userName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
-        this.password = password;
     }
 
     /**
@@ -133,14 +128,6 @@ public class User {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     /**
      * Gets pokemon.
      *
@@ -174,7 +161,7 @@ public class User {
      *
      * @param newPokemon the pokemon
      */
-    public void removeOrder(Pokemon newPokemon) {
+    public void removePokemon(Pokemon newPokemon) {
         pokemon.remove(newPokemon);
         newPokemon.setUser(null);
     }
@@ -186,7 +173,6 @@ public class User {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
                 ", id=" + id +
                 '}';
     }
@@ -199,13 +185,12 @@ public class User {
         return id == user.id &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(password, user.password);
+                Objects.equals(userName, user.userName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(firstName, lastName, userName, password, id);
+        return Objects.hash(firstName, lastName, userName, id);
     }
 }

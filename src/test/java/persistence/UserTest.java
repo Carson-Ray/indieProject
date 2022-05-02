@@ -40,19 +40,4 @@ public class UserTest {
         assertEquals(expectedUsername, actualUsername);
 
     }
-
-    @Test
-    void getPassword() {
-
-        User user = new User();
-
-        user.setPassword("supersecret1234!");
-
-        String expectedPassword = "supersecret1234!";
-
-        String actualPassword = user.getPassword();
-
-        assertEquals(expectedPassword, actualPassword);
-    }
-
 }

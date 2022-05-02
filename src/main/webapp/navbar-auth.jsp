@@ -24,21 +24,9 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
-                <c:choose>
-                    <c:when test="${userName == null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logIn">Log In</a>
-                        </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile"><c:out value=" ${userName}"/> </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logOut">Log Out</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile"><c:out value=" ${userName}"/> </a>
+                </li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
