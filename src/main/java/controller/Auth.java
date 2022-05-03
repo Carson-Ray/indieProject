@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import auth.*;
 import entity.*;
+import persistence.GenericDao;
 import util.PropertiesLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +57,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     String REGION;
     String POOL_ID;
     Keys jwks;
+    User user;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -78,6 +80,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String authCode = req.getParameter("code");
         String userName = null;
 
+
         if (authCode == null) {
             resp.sendRedirect("/error.jsp");
         } else {
@@ -86,6 +89,19 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 TokenResponse tokenResponse = getToken(authRequest);
                 userName = validate(tokenResponse);
                 req.setAttribute("userName", userName);
+                req.setAttribute("user", user);
+
+                GenericDao dao = new GenericDao<>(User.class);
+                List<User> users = dao.getAll();
+
+                for (User wilson : users) {
+                    if (user.equals(wilson)) {
+                        break;
+                    } else {
+                        dao.insert(user);
+                    }
+                }
+
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
                 resp.sendRedirect("/error.jsp");
@@ -94,7 +110,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 resp.sendRedirect("/error.jsp");
             }
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/user-home.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);
 
     }
@@ -179,6 +195,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         String username = jwt.getClaim("user_name").asString();
         String firstName = jwt.getClaim("first_name").asString();
         String lastName = jwt.getClaim("last_name").asString();
+
+        user = new User(firstName, lastName, username);
 
         return userName;
     }
