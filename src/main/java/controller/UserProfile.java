@@ -28,7 +28,8 @@ public class UserProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        connection = rds.getRemoteConnection();
+        rds = ConnectRDS.getInstance();
+        rds.getRemoteConnection();
 
         GenericDao userDao = new GenericDao(User.class);
         GenericDao pokeDao = new GenericDao(UserPokemon.class);
