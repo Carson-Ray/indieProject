@@ -6,8 +6,9 @@
     <session-factory>
         <property name="connection.url">https://us-east-2.console.aws.amazon.com/rds/home?region=us-east-2#dbinstances:id=aa8ead5ns6y8kg</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">student</property>
+        <property name="connection.username">cproedl</property>
+        <property name="connection.password">R0car28963!</property>
+        <property name="hibernate.dialect"></property>
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
         <property name="hibernate.c3p0.timeout">300</property>

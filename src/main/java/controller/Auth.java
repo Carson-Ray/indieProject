@@ -91,17 +91,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.setAttribute("userName", userName);
                 req.setAttribute("user", user);
 
-                GenericDao dao = new GenericDao<>(User.class);
-                List<User> users = dao.getAll();
-
-                for (User wilson : users) {
-                    if (user.equals(wilson)) {
-                        break;
-                    } else {
-                        dao.insert(user);
-                    }
-                }
-
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
                 resp.sendRedirect("/error.jsp");
