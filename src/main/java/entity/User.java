@@ -62,10 +62,11 @@ public class User {
      * @param lastName the last name
      * @param userName the user name
      */
-    public User(String firstName, String lastName, String userName) {
+    public User(String firstName, String lastName, String userName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
+        this.email = email;
     }
 
     /**

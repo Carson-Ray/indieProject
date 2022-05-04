@@ -79,7 +79,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String authCode = req.getParameter("code");
         List<String> userData;
-        HttpSession session = req.getSession();
 
 
         if (authCode == null) {
@@ -93,18 +92,20 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 String userName = userData.get(0);
                 String email = userData.get(1);
 
-                session.setAttribute("userName", userName);
-                session.setAttribute("email", email);
+                req.setAttribute("userName", userName);
+                req.setAttribute("email", email);
 
                 if (userExists(userName)) {
+                    logger.info(userName + "exists");
                     User user = getUser(userName);
-                    session.setAttribute("user", user);
+                    req.setAttribute("user", user);
                     req.getRequestDispatcher("index.jsp").forward(req, resp);
                 } else {
+                    logger.info(userName + "does not exist");
                     User newUser = new User(userName, email);
                     GenericDao<User> dao = new GenericDao<>(User.class);
                     dao.insert(newUser);
-                    session.setAttribute("user", newUser);
+                    req.setAttribute("user", newUser);
                     req.getRequestDispatcher("/profile").forward(req, resp);
                 }
 
@@ -116,9 +117,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 resp.sendRedirect("/error.jsp");
             }
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(req, resp);
-
     }
 
     public boolean userExists(String userName) {

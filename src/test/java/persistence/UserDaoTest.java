@@ -55,7 +55,7 @@ class UserDaoTest {
     @Test
     void insertSuccess() {
 
-        User newUser = new User("Pablo", "Picasso", "ppicasso");
+        User newUser = new User("Pablo", "Picasso", "ppicasso", "ppicasso@art.com");
         int id = userDao.insert(newUser);
         assertNotEquals(0,id);
         User insertedUser = (User) userDao.getById(id);
@@ -68,7 +68,7 @@ class UserDaoTest {
     @Test
     void insertWithPokemonSuccess() {
 
-        User newUser = new User("Pablo", "Picasso", "ppicasso");
+        User newUser = new User("Pablo", "Picasso", "ppicasso", "ppicasso@art.com");
 
         UserPokemon pokemon = new UserPokemon("Blastoise", "Defender", newUser);
 
