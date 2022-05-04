@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URI;
@@ -57,7 +58,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     String REGION;
     String POOL_ID;
     Keys jwks;
-    User user;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -78,7 +78,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String authCode = req.getParameter("code");
-        String userName = null;
+        List<String> userData;
+        HttpSession session = req.getSession();
 
 
         if (authCode == null) {
@@ -87,9 +88,25 @@ public class Auth extends HttpServlet implements PropertiesLoader {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
                 TokenResponse tokenResponse = getToken(authRequest);
-                userName = validate(tokenResponse);
-                req.setAttribute("userName", userName);
-                req.setAttribute("user", user);
+                userData = validate(tokenResponse);
+
+                String userName = userData.get(0);
+                String email = userData.get(1);
+
+                session.setAttribute("userName", userName);
+                session.setAttribute("email", email);
+
+                if (userExists(userName)) {
+                    User user = getUser(userName);
+                    session.setAttribute("user", user);
+                    req.getRequestDispatcher("index.jsp").forward(req, resp);
+                } else {
+                    User newUser = new User(userName, email);
+                    GenericDao<User> dao = new GenericDao<>(User.class);
+                    dao.insert(newUser);
+                    session.setAttribute("user", newUser);
+                    req.getRequestDispatcher("/profile").forward(req, resp);
+                }
 
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
@@ -102,6 +119,18 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);
 
+    }
+
+    public boolean userExists(String userName) {
+        GenericDao<User> dao = new GenericDao<>(User.class);
+        List<User> users = dao.findByPropertyEqual("userName", userName);
+        return (users.size() == 1);
+    }
+
+    public User getUser(String userName) {
+        GenericDao<User> dao = new GenericDao<>(User.class);
+        List<User> users = dao.findByPropertyEqual("userName", userName);
+        return users.get(0);
     }
 
     /**
@@ -136,7 +165,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
      * @return
      * @throws IOException
      */
-    private String validate(TokenResponse tokenResponse) throws IOException {
+    private List<String> validate(TokenResponse tokenResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         CognitoTokenHeader tokenHeader = mapper.readValue(CognitoJWTParser.getHeader(tokenResponse.getIdToken()).toString(), CognitoTokenHeader.class);
         //CognitoIdToken idToken = mapper.readValue(CognitoJWTParser.getPayload(tokenResponse.getIdToken()).toString(), CognitoIdToken.class);
@@ -175,19 +204,15 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         // Verify the token
         DecodedJWT jwt = verifier.verify(tokenResponse.getIdToken());
         String userName = jwt.getClaim("cognito:username").asString();
+        String email = jwt.getClaim("email").asString();
         logger.debug("here's the username: " + userName);
+        logger.debug("the email" + email);
 
-        // TODO decide what you want to do with the info!
-        // for now, I'm just returning username for display back to the browser
+        List<String> userData = new ArrayList<>();
+        userData.add(userName);
+        userData.add(email);
 
-        // Parse various fields
-        String username = jwt.getClaim("user_name").asString();
-        String firstName = jwt.getClaim("first_name").asString();
-        String lastName = jwt.getClaim("last_name").asString();
-
-        user = new User(firstName, lastName, username);
-
-        return userName;
+        return userData;
     }
 
     /** Create the auth url and use it to build the request.

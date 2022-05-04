@@ -24,6 +24,17 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
+    @Column(name = "email")
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -37,6 +48,11 @@ public class User {
      * Instantiates a new User.
      */
     public User() {
+    }
+
+    public User(String userName, String email) {
+        this.userName = userName;
+        this.email = email;
     }
 
     /**

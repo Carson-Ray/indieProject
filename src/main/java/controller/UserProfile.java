@@ -28,22 +28,8 @@ public class UserProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        rds = ConnectRDS.getInstance();
-        rds.getRemoteConnection();
-
-        GenericDao userDao = new GenericDao(User.class);
-        GenericDao pokeDao = new GenericDao(UserPokemon.class);
-
-        List<User> users = userDao.getAll();
-
-        User user = (User)req.getAttribute("user");
-
-        for (User wilson : users) {
-            if (user.equals(wilson)) {
-                break;
-            } else {
-                userDao.insert(user);
-            }
+        if (req.getAttribute("user") != null) {
+            req.setAttribute("userForm", true);
         }
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
