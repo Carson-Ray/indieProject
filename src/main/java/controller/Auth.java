@@ -58,6 +58,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     String REGION;
     String POOL_ID;
     Keys jwks;
+    GenericDao<User> dao = new GenericDao<>(User.class);
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -78,7 +79,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String authCode = req.getParameter("code");
-        List<String> userData;
+        HttpSession session = req.getSession();
 
 
         if (authCode == null) {
@@ -87,27 +88,22 @@ public class Auth extends HttpServlet implements PropertiesLoader {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
                 TokenResponse tokenResponse = getToken(authRequest);
-                userData = validate(tokenResponse);
+                String userName = validate(tokenResponse);
 
-                String userName = userData.get(0);
-                String email = userData.get(1);
+                session.setAttribute("userName", userName);
 
-                req.setAttribute("userName", userName);
-                req.setAttribute("email", email);
-
-//                if (userExists(userName)) {
-//                    logger.info(userName + "exists");
-//                    User user = getUser(userName);
-//                    req.setAttribute("user", user);
-//                    req.getRequestDispatcher("index.jsp").forward(req, resp);
-//                } else {
-//                    logger.info(userName + "does not exist");
-//                    User newUser = new User(userName, email);
-//                    GenericDao<User> dao = new GenericDao<>(User.class);
-//                    dao.insert(newUser);
-//                    req.setAttribute("user", newUser);
-//                    req.getRequestDispatcher("/profile").forward(req, resp);
-//                }
+                if (userExists(userName)) {
+                    logger.info("User " + userName + "exists");
+                    User user = getUser(userName);
+                    session.setAttribute("user", user);
+                    req.getRequestDispatcher("index.jsp").forward(req, resp);
+                } else {
+                    logger.info("User " + userName + "doesn't exist");
+                    User newUser = new User(userName);
+                    dao.insert(newUser);
+                    session.setAttribute("user", newUser);
+                    req.getRequestDispatcher("/editProfile").forward(req, resp);
+                }
 
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
@@ -121,13 +117,11 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     }
 
     public boolean userExists(String userName) {
-        GenericDao<User> dao = new GenericDao<>(User.class);
-        List<User> users = dao.findByPropertyEqual("user_name", userName);
+        List<User> users = dao.findByPropertyEqual("userName", userName);
         return (users.size() == 1);
     }
 
     public User getUser(String userName) {
-        GenericDao<User> dao = new GenericDao<>(User.class);
         List<User> users = dao.findByPropertyEqual("userName", userName);
         return users.get(0);
     }
@@ -164,7 +158,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
      * @return
      * @throws IOException
      */
-    private List<String> validate(TokenResponse tokenResponse) throws IOException {
+    private String validate(TokenResponse tokenResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         CognitoTokenHeader tokenHeader = mapper.readValue(CognitoJWTParser.getHeader(tokenResponse.getIdToken()).toString(), CognitoTokenHeader.class);
         //CognitoIdToken idToken = mapper.readValue(CognitoJWTParser.getPayload(tokenResponse.getIdToken()).toString(), CognitoIdToken.class);
@@ -203,15 +197,15 @@ public class Auth extends HttpServlet implements PropertiesLoader {
         // Verify the token
         DecodedJWT jwt = verifier.verify(tokenResponse.getIdToken());
         String userName = jwt.getClaim("cognito:username").asString();
-        String email = jwt.getClaim("email").asString();
+        //String email = jwt.getClaim("email").asString();
         logger.debug("here's the username: " + userName);
-        logger.debug("the email" + email);
+        //logger.debug("the email" + email);
 
-        List<String> userData = new ArrayList<>();
-        userData.add(userName);
-        userData.add(email);
+        //List<String> userData = new ArrayList<>();
+        //userData.add(userName);
+        //userData.add(email);
 
-        return userData;
+        return userName;
     }
 
     /** Create the auth url and use it to build the request.

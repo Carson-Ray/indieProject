@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -65,8 +66,11 @@ public class LogOut extends HttpServlet implements PropertiesLoader {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO if properties weren't loaded properly, route to an error page
+
+        HttpSession session = req.getSession();
         try {
             String url = LOGOUT_URL + "?client_id=" + CLIENT_ID + "&logout_uri=" + LOGOUT_URI;
+            session.invalidate();
             resp.sendRedirect(url);
         } catch (Exception e) {
             logger.error("Error loading properties" + e.getMessage(), e);

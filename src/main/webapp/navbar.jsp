@@ -32,7 +32,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile"><c:out value=" ${userName}"/> </a>
+                            <a class="nav-link" href="/viewProfile"><c:out value=" ${userName}"/> </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/logOut">Log Out</a>

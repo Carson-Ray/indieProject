@@ -50,9 +50,8 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String email) {
+    public User(String userName) {
         this.userName = userName;
-        this.email = email;
     }
 
     /**
