@@ -21,14 +21,21 @@ import java.util.List;
 public class EditProfile extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
-    GenericDao<User> dao = new GenericDao<>(User.class);
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        GenericDao<User> dao = new GenericDao<>(User.class);
         List<User> users = dao.getAll();
         req.setAttribute("users", users);
 
+        req.setAttribute("newUserForm", true);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("newUserForm", true);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
         dispatcher.forward(req, resp);
