@@ -95,33 +95,34 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.setAttribute("userName", userName);
                 req.setAttribute("email", email);
 
-                if (userExists(userName)) {
-                    logger.info(userName + "exists");
-                    User user = getUser(userName);
-                    req.setAttribute("user", user);
-                    req.getRequestDispatcher("index.jsp").forward(req, resp);
-                } else {
-                    logger.info(userName + "does not exist");
-                    User newUser = new User(userName, email);
-                    GenericDao<User> dao = new GenericDao<>(User.class);
-                    dao.insert(newUser);
-                    req.setAttribute("user", newUser);
-                    req.getRequestDispatcher("/profile").forward(req, resp);
-                }
+//                if (userExists(userName)) {
+//                    logger.info(userName + "exists");
+//                    User user = getUser(userName);
+//                    req.setAttribute("user", user);
+//                    req.getRequestDispatcher("index.jsp").forward(req, resp);
+//                } else {
+//                    logger.info(userName + "does not exist");
+//                    User newUser = new User(userName, email);
+//                    GenericDao<User> dao = new GenericDao<>(User.class);
+//                    dao.insert(newUser);
+//                    req.setAttribute("user", newUser);
+//                    req.getRequestDispatcher("/profile").forward(req, resp);
+//                }
 
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
-                resp.sendRedirect("/error.jsp");
+                resp.sendRedirect("error.jsp");
             } catch (InterruptedException e) {
                 logger.error("Error getting token from Cognito oauth url " + e.getMessage(), e);
-                resp.sendRedirect("/error.jsp");
+                resp.sendRedirect("error.jsp");
             }
         }
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     public boolean userExists(String userName) {
         GenericDao<User> dao = new GenericDao<>(User.class);
-        List<User> users = dao.findByPropertyEqual("userName", userName);
+        List<User> users = dao.findByPropertyEqual("user_name", userName);
         return (users.size() == 1);
     }
 
