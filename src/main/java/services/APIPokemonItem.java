@@ -1,6 +1,9 @@
 package services;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import entity.*;
+
+import java.util.List;
 
 public class APIPokemonItem{
 
@@ -21,6 +24,17 @@ public class APIPokemonItem{
 
 	@JsonProperty("Defense")
 	private String defense;
+
+	@JsonProperty("APIPokemon")
+	private List<APIPokemonItem> aPIPokemon;
+
+	public void setAPIPokemon(List<APIPokemonItem> aPIPokemon){
+		this.aPIPokemon = aPIPokemon;
+	}
+
+	public List<APIPokemonItem> getAPIPokemon(){
+		return aPIPokemon;
+	}
 
 	public void setSpDefense(String spDefense){
 		this.spDefense = spDefense;
