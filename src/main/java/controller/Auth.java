@@ -8,6 +8,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import auth.*;
 import entity.*;
+import org.json.JSONArray;
+import services.*;
 import persistence.GenericDao;
 import util.PropertiesLoader;
 import org.apache.logging.log4j.LogManager;
@@ -59,6 +61,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     String POOL_ID;
     Keys jwks;
     GenericDao<User> dao = new GenericDao<>(User.class);
+    GetPokemon api;
+    List<APIPokemon> allPokemon = new ArrayList<>();
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -92,6 +96,9 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 session.setAttribute("userName", userName);
 
+                //callApi();
+                //session.setAttribute("allPokemon", allPokemon);
+
                 if (userExists(userName)) {
                     logger.info("User " + userName + "exists");
                     User user = getUser(userName);
@@ -114,6 +121,11 @@ public class Auth extends HttpServlet implements PropertiesLoader {
             }
         }
         req.getRequestDispatcher("index.jsp").forward(req, resp);
+    }
+
+    public void callApi() {
+        api = new GetPokemon();
+        allPokemon = api.requestAPI();
     }
 
     public boolean userExists(String userName) {

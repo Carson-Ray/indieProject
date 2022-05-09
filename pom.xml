@@ -135,42 +135,6 @@
       <version>2.11.0</version>
     </dependency>
     <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-dynamodb</artifactId>
-      <version>1.12.195</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-api-gateway -->
-    <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-api-gateway</artifactId>
-      <version>1.12.215</version>
-    </dependency>
-    <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-lambda-java-core</artifactId>
-      <version>1.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>bom</artifactId>
-      <version>2.17.136</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
-    <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk</artifactId>
-      <version>1.12.215</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/sdk-core -->
-    <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/apigateway -->
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>apigateway</artifactId>
-      <version>2.17.186</version>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
       <version>${jersey-version}</version>

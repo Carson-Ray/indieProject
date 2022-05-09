@@ -4,12 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.apigateway.ApiGatewayClient;
-import software.amazon.awssdk.services.apigateway.model.ApiGatewayException;
-import software.amazon.awssdk.services.apigateway.model.GetMethodRequest;
-import software.amazon.awssdk.services.apigateway.model.GetMethodResponse;
-import software.amazon.awssdk.services.apigateway.model.MethodResponse;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,14 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.PropertiesLoader;
 import entity.*;
-
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * This class gets definition entries from a DynamoDB database and returns them to the user as JSON objects.
@@ -32,23 +23,26 @@ import java.util.Properties;
 public class GetPokemon implements PropertiesLoader {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
-    Properties properties;
-    String API_ID;
-    String RESOURCE_ID;
-    String HTTP_METHOD;
-    Region region = Region.US_EAST_2;
-    APIPokemon item = new APIPokemon();
-    List<APIPokemon> allPokemon = new ArrayList<>();
+    List<APIPokemon> allPokemon;
 
     public static void main(String[] args) {
         GetPokemon test = new GetPokemon();
-        test.GetAllPokemon();
-        test.testingAPI();
+        test.requestAPI();
     }
 
-    public void testingAPI() {
+    public void GetPokemon() {}
+
+    public List<APIPokemon> requestAPI() {
+        allPokemon = new ArrayList<>();
+        callAPI();
+        for(APIPokemon pokemon : allPokemon) {
+            logger.info(pokemon.getPokemon());
+        }
+        return allPokemon;
+    }
+
+    public void callAPI() {
         try {
-            allPokemon = new ArrayList<>();
             URL url = new URL("https://z7nskb75ye.execute-api.us-east-2.amazonaws.com/getAll/pokemon");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -66,10 +60,21 @@ public class GetPokemon implements PropertiesLoader {
                 String object = array.getJSONObject(i).toString();
                 ObjectMapper mapper = new ObjectMapper();
                 APIPokemon newMon = mapper.readValue(object, APIPokemon.class);
-                allPokemon.add(newMon);
+                //logger.info(newMon.getPokemon());
+                APIPokemon pokemon = new APIPokemon(
+                        newMon.getRole(),
+                        newMon.getPokemon(),
+                        newMon.getAttack(),
+                        newMon.getDefense(),
+                        newMon.getHP(),
+                        newMon.getSpAttack(),
+                        newMon.getSpDefense()
+                );
+                //logger.info(newMon);
+                allPokemon.add(pokemon);
             }
             for(APIPokemon mon : allPokemon) {
-                logger.info(mon.getPokemon());
+                //logger.info(mon.getPokemon());
             }
             conn.disconnect();
 
@@ -79,56 +84,55 @@ public class GetPokemon implements PropertiesLoader {
 
     }
 
-        public void GetAllPokemon() {
-        loadProperties();
-        ApiGatewayClient apiGateway = ApiGatewayClient.builder()
-                .region(region)
-                .build();
+//        public void GetAllPokemon() {
+//        loadProperties();
+//        ApiGatewayClient apiGateway = ApiGatewayClient.builder()
+//                .region(region)
+//                .build();
+//
+//        try {
+//            GetMethodRequest methodRequest = GetMethodRequest.builder()
+//                    .httpMethod(properties.getProperty("http.method"))
+//                    .restApiId(properties.getProperty("api.id"))
+//                    .resourceId(properties.getProperty("resource.id"))
+//                    .build();
+//
+//            GetMethodResponse response = apiGateway.getMethod(methodRequest);
+//            Map<String, String> map = response.requestModels();
+//            for (Map.Entry<String, String> mapping : map.entrySet()) {
+//                logger.info(mapping.getValue());
+//            }
+//
+//            Map<String, MethodResponse> details = response.methodResponses();
+//            for (Map.Entry<String,MethodResponse> entry : details.entrySet()) {
+//                logger.info("Key = " + entry.getKey() +
+//                        ", Value = " + entry.getValue());
+//                List<Object> list =  new ArrayList();
+//                list.add(entry.getValue().responseModels().values().toArray());
+//                for (Object item : list) {
+//                    logger.info(item.toString());
+//                }
+//            }
+//
+//
+//        } catch (ApiGatewayException e) {
+//            logger.error(e.awsErrorDetails().errorMessage());
+//            System.exit(1);
+//        }
+//        }
 
-        try {
-            GetMethodRequest methodRequest = GetMethodRequest.builder()
-                    .httpMethod("GET")
-                    .restApiId("z7nskb75ye")
-                    .resourceId("kavrp1")
-                    .build();
-
-            GetMethodResponse response = apiGateway.getMethod(methodRequest);
-            Map<String, String> map = response.requestModels();
-            for (Map.Entry<String, String> mapping : map.entrySet()) {
-                logger.info(mapping.getValue());
-            }
-
-            Map<String, MethodResponse> details = response.methodResponses();
-            List<APIPokemon> allPokemon = new ArrayList<>();
-            for (Map.Entry<String,MethodResponse> entry : details.entrySet()) {
-                logger.info("Key = " + entry.getKey() +
-                        ", Value = " + entry.getValue());
-                List<Object> list =  new ArrayList();
-                list.add(entry.getValue().responseModels().values().toArray());
-                for (Object item : list) {
-                    logger.info(item.toString());
-                }
-            }
-
-
-        } catch (ApiGatewayException e) {
-            logger.error(e.awsErrorDetails().errorMessage());
-            System.exit(1);
-        }
-        }
-
-    private void loadProperties() {
-        try {
-            properties = loadProperties("/cognito.properties");
-            API_ID = properties.getProperty("api.id");
-            RESOURCE_ID = properties.getProperty("resource.id");
-            HTTP_METHOD = properties.getProperty("http.method");
-        } catch (IOException ioException) {
-            logger.error("Cannot load properties..." + ioException.getMessage(), ioException);
-        } catch (Exception e) {
-            logger.error("Error loading properties" + e.getMessage(), e);
-        }
-    }
+//    private void loadProperties() {
+//        try {
+//            properties = loadProperties("/cognito.properties");
+//            API_ID = properties.getProperty("api.id");
+//            RESOURCE_ID = properties.getProperty("resource.id");
+//            HTTP_METHOD = properties.getProperty("http.method");
+//        } catch (IOException ioException) {
+//            logger.error("Cannot load properties..." + ioException.getMessage(), ioException);
+//        } catch (Exception e) {
+//            logger.error("Error loading properties" + e.getMessage(), e);
+//        }
+//    }
 
 
 }

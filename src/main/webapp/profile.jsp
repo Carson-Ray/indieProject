@@ -36,6 +36,7 @@
         </c:otherwise>
     </c:choose>
     <c:out value="${users}"/>
+    <c:out value="${allPokemon}"/>
 
 
 

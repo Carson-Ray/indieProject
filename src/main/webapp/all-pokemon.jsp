@@ -1,14 +1,14 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
-    <c:import url="head.jsp"/>
-    <c:import url="navbar.jsp"/>
+<c:import url="head.jsp"/>
+<c:import url="navbar.jsp"/>
 <body>
 <main>
     <h1>Hello, world!</h1>
     <c:if test="${sessionScope.user != null}">
         <c:out value="${sessionScope.user.firstName}"/>
-        <c:forEach items="${allPokemon}" var="i">
+        <c:forEach items="${sessionScope.allPokemon}" var="i">
             <p>${i.pokemon}</p>
         </c:forEach>
     </c:if>

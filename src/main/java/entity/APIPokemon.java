@@ -30,6 +30,18 @@ public class APIPokemon {
 	@JsonProperty("APIPokemon")
 	private List<APIPokemon> aPIPokemon;
 
+	public APIPokemon() {}
+
+	public APIPokemon(String role, String pokemon, String attack, String defense, String hp, String spAttack, String spDefense) {
+		this.role = role;
+		this.pokemon = pokemon;
+		this.attack = attack;
+		this.defense = defense;
+		this.hp = hp;
+		this.spAttack = spAttack;
+		this.spDefense = spDefense;
+	}
+
 	public void setRole(String role) {this.role = role;}
 
 	public String getRole() {return role;}
