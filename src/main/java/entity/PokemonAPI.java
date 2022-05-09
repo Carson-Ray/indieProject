@@ -6,7 +6,8 @@ import java.util.Map;
 
 public class PokemonAPI {
 
-    public PokemonAPI(String pokemon, String attack, String defense, String hp, String spAttack, String spDefense) {
+    public PokemonAPI(String role, String pokemon, String attack, String defense, String hp, String spAttack, String spDefense) {
+        this.role = role;
         this.pokemon = pokemon;
         this.attack = attack;
         this.defense = defense;
@@ -14,6 +15,8 @@ public class PokemonAPI {
         this.spAttack = spAttack;
         this.spDefense = spDefense;
     }
+
+    private String role;
 
     private String pokemon;
 
@@ -32,6 +35,7 @@ public class PokemonAPI {
     }
 
     public PokemonAPI(Map<String, AttributeValue> input) {
+        this.role = input.get("Role").getS();
         this.pokemon = input.get("Pokemon").getS();
         this.attack = input.get("Attack").getS();
         this.defense = input.get("Defense").getS();
@@ -39,6 +43,10 @@ public class PokemonAPI {
         this.spAttack = input.get("SpAttack").getS();
         this.spDefense = input.get("SpDefense").getS();
     }
+
+    public String getRole() {return role;}
+
+    public void setRole() {this.role = role;}
 
     public String getPokemon() {
         return pokemon;
@@ -90,13 +98,14 @@ public class PokemonAPI {
 
     @Override
     public String toString() {
-        return "PokemonAPI{" +
-                ", pokemon='" + pokemon + '\'' +
-                ", attack='" + attack + '\'' +
-                ", defense='" + defense + '\'' +
-                ", hp='" + hp + '\'' +
-                ", spAttack='" + spAttack + '\'' +
-                ", spDefense='" + spDefense + '\'' +
+        return "{" +
+                "\'role\'='" + role + '\'' +
+                ", \'pokemon\'='" + pokemon + '\'' +
+                ", \'attack\'='" + attack + '\'' +
+                ", \'defense\'='" + defense + '\'' +
+                ", \'hp\'='" + hp + '\'' +
+                ", \'spAttack\'='" + spAttack + '\'' +
+                ", \'spDefense\'='" + spDefense + '\'' +
                 '}';
     }
 }

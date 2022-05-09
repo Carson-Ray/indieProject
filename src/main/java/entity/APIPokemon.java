@@ -1,17 +1,16 @@
-package services;
+package entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import entity.*;
 
 import java.util.List;
 
-public class APIPokemonItem{
+public class APIPokemon {
 
 	@JsonProperty("SpDefense")
 	private String spDefense;
 
 	@JsonProperty("HP")
-	private String hP;
+	private String hp;
 
 	@JsonProperty("SpAttack")
 	private String spAttack;
@@ -25,14 +24,21 @@ public class APIPokemonItem{
 	@JsonProperty("Defense")
 	private String defense;
 
-	@JsonProperty("APIPokemon")
-	private List<APIPokemonItem> aPIPokemon;
+	@JsonProperty("Role")
+	private String role;
 
-	public void setAPIPokemon(List<APIPokemonItem> aPIPokemon){
+	@JsonProperty("APIPokemon")
+	private List<APIPokemon> aPIPokemon;
+
+	public void setRole(String role) {this.role = role;}
+
+	public String getRole() {return role;}
+
+	public void setAPIPokemon(List<APIPokemon> aPIPokemon){
 		this.aPIPokemon = aPIPokemon;
 	}
 
-	public List<APIPokemonItem> getAPIPokemon(){
+	public List<APIPokemon> getAPIPokemon(){
 		return aPIPokemon;
 	}
 
@@ -44,13 +50,11 @@ public class APIPokemonItem{
 		return spDefense;
 	}
 
-	public void setHP(String hP){
-		this.hP = hP;
+	public void setHP(String hp){
+		this.hp = hp;
 	}
 
-	public String getHP(){
-		return hP;
-	}
+	public String getHP() {return hp;}
 
 	public void setSpAttack(String spAttack){
 		this.spAttack = spAttack;
@@ -86,14 +90,14 @@ public class APIPokemonItem{
 
 	@Override
  	public String toString(){
-		return 
-			"APIPokemonItem{" + 
-			"spDefense = '" + spDefense + '\'' + 
-			",hP = '" + hP + '\'' + 
-			",spAttack = '" + spAttack + '\'' + 
-			",attack = '" + attack + '\'' + 
-			",pokemon = '" + pokemon + '\'' + 
-			",defense = '" + defense + '\'' + 
-			"}";
+		return "{" +
+				"\'role\'='" + role + '\'' +
+				", \'pokemon\'='" + pokemon + '\'' +
+				", \'attack\'='" + attack + '\'' +
+				", \'defense\'='" + defense + '\'' +
+				", \'hp\'='" + hp + '\'' +
+				", \'spAttack\'='" + spAttack + '\'' +
+				", \'spDefense\'='" + spDefense + '\'' +
+				'}';
 		}
 }

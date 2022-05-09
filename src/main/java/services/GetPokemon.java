@@ -37,7 +37,8 @@ public class GetPokemon implements PropertiesLoader {
     String RESOURCE_ID;
     String HTTP_METHOD;
     Region region = Region.US_EAST_2;
-    APIPokemonItem item = new APIPokemonItem();
+    APIPokemon item = new APIPokemon();
+    List<APIPokemon> allPokemon = new ArrayList<>();
 
     public static void main(String[] args) {
         GetPokemon test = new GetPokemon();
@@ -47,7 +48,7 @@ public class GetPokemon implements PropertiesLoader {
 
     public void testingAPI() {
         try {
-            List<APIPokemonItem> allPokemon = new ArrayList<>();
+            allPokemon = new ArrayList<>();
             URL url = new URL("https://z7nskb75ye.execute-api.us-east-2.amazonaws.com/getAll/pokemon");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -61,36 +62,19 @@ public class GetPokemon implements PropertiesLoader {
             JSONTokener tokener = new JSONTokener(br);
             JSONObject json = new JSONObject(tokener);
             JSONArray array = json.getJSONArray("APIPokemon");
-            //System.out.println(json);
-            //System.out.println(array);
             for (int i = 0; i < array.length(); i++) {
                 String object = array.getJSONObject(i).toString();
-                //System.out.println(object);
                 ObjectMapper mapper = new ObjectMapper();
-                APIPokemonItem newMon = mapper.readValue(object, APIPokemonItem.class);
+                APIPokemon newMon = mapper.readValue(object, APIPokemon.class);
                 allPokemon.add(newMon);
-                //System.out.println(newMon);
-                for (APIPokemonItem pokemon : allPokemon) {
-                    PokemonAPI poke;
-                    String currentMon = pokemon.getPokemon();
-                    String spdef = pokemon.getSpDefense();
-                    String spAtk = pokemon.getSpAttack();
-                    String attack = pokemon.getAttack();
-                    String defense = pokemon.getDefense();
-                    String hp = pokemon.getHP();
-                    poke = new PokemonAPI(currentMon, attack, defense, hp, spAtk, spdef);
-                    System.out.println(poke);
-                }
             }
-            item.setAPIPokemon(allPokemon);
+            for(APIPokemon mon : allPokemon) {
+                logger.info(mon.getPokemon());
+            }
             conn.disconnect();
-            //System.out.println(item.getAPIPokemon());
-            for (APIPokemonItem mon : item.getAPIPokemon()) {
-
-            }
 
         } catch (Exception e) {
-            System.out.println("Exception in NetClientGet:- " + e);
+            logger.error("Exception in NetClientGet:- " + e);
         }
 
     }
@@ -111,24 +95,24 @@ public class GetPokemon implements PropertiesLoader {
             GetMethodResponse response = apiGateway.getMethod(methodRequest);
             Map<String, String> map = response.requestModels();
             for (Map.Entry<String, String> mapping : map.entrySet()) {
-                System.out.println(mapping.getValue());
+                logger.info(mapping.getValue());
             }
 
             Map<String, MethodResponse> details = response.methodResponses();
-            List<APIPokemonItem> allPokemon = new ArrayList<>();
+            List<APIPokemon> allPokemon = new ArrayList<>();
             for (Map.Entry<String,MethodResponse> entry : details.entrySet()) {
-                System.out.println("Key = " + entry.getKey() +
+                logger.info("Key = " + entry.getKey() +
                         ", Value = " + entry.getValue());
                 List<Object> list =  new ArrayList();
                 list.add(entry.getValue().responseModels().values().toArray());
                 for (Object item : list) {
-                    System.out.println(item.toString());
+                    logger.info(item.toString());
                 }
             }
 
 
         } catch (ApiGatewayException e) {
-            System.err.println(e.awsErrorDetails().errorMessage());
+            logger.error(e.awsErrorDetails().errorMessage());
             System.exit(1);
         }
         }
