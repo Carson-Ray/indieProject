@@ -7,25 +7,32 @@
 <main>
     <h1>Hello, world!</h1>
     <c:out value="${value}"/>
-    <c:set var="value" value="${value}"/>
-    <c:forEach items="${allPokemon}" var="i">
-        <c:if test="${i.pokemon == value}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Pokemon</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Attack</th>
-                        <th scope="col">Defense</th>
-                        <th scope="col">HP</th>
-                        <th scope="col">SpAttack</th>
-                        <th scope="col">SpDefense</th>
-                    </tr>
-                </thead>
-                <tr>${i.role}</tr>
-            </table>
-        </c:if>
-    </c:forEach>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Pokemon</th>
+            <th scope="col">Role</th>
+            <th scope="col">Attack</th>
+            <th scope="col">Defense</th>
+            <th scope="col">HP</th>
+            <th scope="col">SpAttack</th>
+            <th scope="col">SpDefense</th>
+        </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${allPokemon}" var="i">
+                <c:if test="${i.pokemon == value}">
+
+
+
+                            <tr>${i.role}</tr>
+                            <tr>${i.pokemon}</tr>
+
+
+                </c:if>
+            </c:forEach>
+        </tbody>
+    </table>
 <%--        <table class="table">--%>
 <%--        <thead>--%>
 <%--        <tr>--%>
