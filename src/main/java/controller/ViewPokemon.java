@@ -15,17 +15,20 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(
-        urlPatterns = {"/viewAllPokemon"}
+        urlPatterns = {"/viewPokemon"}
 )
 
-public class ViewAllPokemon extends HttpServlet {
+public class ViewPokemon extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/all-pokemon.jsp");
+        String current = req.getParameter("value");
+        req.setAttribute("current", current);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/view-pokemon.jsp");
         dispatcher.forward(req, resp);
     }
 

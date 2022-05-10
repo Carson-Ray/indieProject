@@ -17,10 +17,12 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Pokemon
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/viewAllPokemon">View All Pokemon</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                    </ul>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <c:forEach items="${allPokemon}" var="i">
+                            <a class="dropdown-item" href="/viewPokemon?${i.pokemon}">${i.pokemon}</a>
+                            <div class="dropdown-divider"></div>
+                        </c:forEach>
+                    </div>
                 </li>
                 <c:choose>
                     <c:when test="${userName == null}">

@@ -12,30 +12,27 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.annotation.*;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name= "ApplicationStartup", urlPatterns = {"/application-startup"}, loadOnStartup = 1)
-
-public class ApplicationStartup implements ServletContextListener {
+@WebListener
+public class ApplicationStartup implements HttpSessionListener {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
-            ServletContext context = sce.getServletContext();
-            GetPokemon api = new GetPokemon();
-            List<APIPokemon> allPokemon = api.requestAPI();
-            context.setAttribute("allPokemon", allPokemon);
-        } catch (Exception e) {
-            logger.error(e);
-        }
+    public void sessionCreated(HttpSessionEvent se) {
+        HttpSession session = se.getSession();
+        GetPokemon api = new GetPokemon();
+        List<APIPokemon> allPokemon = api.requestAPI();
+        session.setAttribute("allPokemon", allPokemon);
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void sessionDestroyed(HttpSessionEvent se) {
 
     }
 }
