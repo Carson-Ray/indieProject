@@ -36,7 +36,7 @@ public class GetPokemon implements PropertiesLoader {
         allPokemon = new ArrayList<>();
         callAPI();
         for(APIPokemon pokemon : allPokemon) {
-            logger.info(pokemon.getPokemon());
+            logger.info(pokemon);
         }
         return allPokemon;
     }
@@ -60,7 +60,7 @@ public class GetPokemon implements PropertiesLoader {
                 String object = array.getJSONObject(i).toString();
                 ObjectMapper mapper = new ObjectMapper();
                 APIPokemon newMon = mapper.readValue(object, APIPokemon.class);
-                //logger.info(newMon.getPokemon());
+//                logger.info(newMon.getPokemon());
                 APIPokemon pokemon = new APIPokemon(
                         newMon.getRole(),
                         newMon.getPokemon(),
@@ -74,7 +74,7 @@ public class GetPokemon implements PropertiesLoader {
                 allPokemon.add(pokemon);
             }
             for(APIPokemon mon : allPokemon) {
-                //logger.info(mon.getPokemon());
+//                logger.info(mon.getPokemon());
             }
             conn.disconnect();
 

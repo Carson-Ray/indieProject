@@ -66,7 +66,7 @@ public class APIPokemon {
 		this.hp = hp;
 	}
 
-	public String getHP() {return hp;}
+	public String getHP() { return hp;}
 
 	public void setSpAttack(String spAttack){
 		this.spAttack = spAttack;
