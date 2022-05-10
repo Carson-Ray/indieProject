@@ -7,3 +7,6 @@
     overflow: auto;
 }
 .dropdown-menu {position:relative; z-index:10000;}
+thead.allHeader {
+    height: 100px;
+}

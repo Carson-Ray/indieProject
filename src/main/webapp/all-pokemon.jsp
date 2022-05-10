@@ -8,7 +8,7 @@
     <div class="container">
         <div class="tbodyDiv p-5">
             <table class="table table-dark table-striped table-hover text-center p-5">
-                <thead class="sticky-top">
+                <thead class="sticky-top allHeader">
                     <tr>
                         <th scope="col">Pokemon</th>
                         <th scope="col">Role</th>
