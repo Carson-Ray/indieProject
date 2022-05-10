@@ -19,7 +19,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <c:forEach items="${allPokemon}" var="i">
-                            <a class="dropdown-item" href="/viewPokemon?${i.pokemon}">${i.pokemon}</a>
+                            <a class="dropdown-item" href="/viewPokemon?value=${i.pokemon}">${i.pokemon}</a>
                             <div class="dropdown-divider"></div>
                         </c:forEach>
                     </div>

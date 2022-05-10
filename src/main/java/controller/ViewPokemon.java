@@ -1,5 +1,6 @@
 package controller;
 
+import entity.APIPokemon;
 import entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.*;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,8 +26,15 @@ public class ViewPokemon extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String current = req.getParameter("value");
+        
+        List<APIPokemon> allPokes = (List<APIPokemon>) req.getSession().getAttribute("allPokemon");
+        String value = req.getParameter("value");
+        APIPokemon current = new APIPokemon();
+        for(APIPokemon poke : allPokes) {
+            if(poke.getPokemon() == value) {
+                current = poke;
+            }
+        }
         req.setAttribute("current", current);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/view-pokemon.jsp");

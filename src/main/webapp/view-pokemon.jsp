@@ -6,6 +6,7 @@
 <body>
 <main>
     <h1>Hello, world!</h1>
+    <c:out value="${current.pokemon}"/>
     <c:forEach items="${allPokemon}" var="i">
         <c:when test="${i.pokemon == current}">
             <p>${i.pokemon}</p>
