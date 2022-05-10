@@ -23,19 +23,30 @@ import java.util.List;
 public class ViewPokemon extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    APIPokemon mon;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        List<APIPokemon> allPokes = (List<APIPokemon>) req.getSession().getAttribute("allPokemon");
+
+        HttpSession session = req.getSession();
+        List<APIPokemon> allPokes = (List<APIPokemon>)session.getAttribute("allPokemon");
         String value = req.getParameter("value");
-        APIPokemon current = new APIPokemon();
         for(APIPokemon poke : allPokes) {
-            if(poke.getPokemon() == value) {
-                current = poke;
-            }
+            mon = new APIPokemon(
+                    poke.getRole(),
+                    poke.getPokemon(),
+                    poke.getAttack(),
+                    poke.getDefense(),
+                    poke.getHP(),
+                    poke.getSpAttack(),
+                    poke.getSpDefense()
+            );
+
+            req.setAttribute(mon.getPokemon(), mon);
+
         }
-        req.setAttribute("current", current);
+        req.setAttribute("value", value);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/view-pokemon.jsp");
         dispatcher.forward(req, resp);
