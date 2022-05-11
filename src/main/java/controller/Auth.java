@@ -98,7 +98,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 session.setAttribute("userName", userName);
 
-                List<UserPokemon> userPokes = new ArrayList<>();
+                Set<UserPokemon> userPokes = new Set<UserPokemon>();
 
                 if (userExists(userName)) {
                     logger.info("User " + userName + "exists");

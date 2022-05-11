@@ -42,7 +42,7 @@
                             </div>
                             <div class="card-footer">
                                 <c:if test="${userName != null}">
-                                    <form name="addPoke" action="/addToUser" method="post">
+                                    <form name="addPoke" action="/addToUser?pok=${i.pokemon}&rol=${i.role}" method="post">
                                         <button type="submit" class="btn btn-outline-secondary btn-sm">
                                             <i class="bi bi-heart"></i>  Add to Favorites
                                         </button>

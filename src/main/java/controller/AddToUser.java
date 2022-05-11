@@ -34,13 +34,25 @@ public class AddToUser extends HttpServlet {
 
         UserPokemon newPokemon = new UserPokemon(req.getParameter("pok"), req.getParameter("rol"), user);
 
-        pokeDao.saveOrUpdate(newPokemon);
+        List<UserPokemon> verify = pokeDao.getAll();
+        for(UserPokemon current : verify) {
+            if(current.getName() == newPokemon.getName() && current.getUser() == newPokemon.getUser()) {
+                String referer = req.getHeader("Referer");
+                resp.sendRedirect(referer);
+            } else {
+                pokeDao.saveOrUpdate(newPokemon);
+                userPokes.add(newPokemon);
+                req.getSession().setAttribute("userPokemon", userPokes);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
+                dispatcher.forward(req, resp);
+            }
+        }
 
-        userPokes.add(newPokemon);
-        req.getSession().setAttribute("userPokemon", userPokes);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
-        dispatcher.forward(req, resp);
+
+
+
+
     }
 
 }
