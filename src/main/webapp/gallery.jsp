@@ -14,7 +14,7 @@
                         <div class="card bg-dark text-light w-100 align-items-stretch">
                             <div class="card-header">
                                 <c:if test="${userName != null}">
-                                    <form class="align-self-end" name="addPoke" action="/addToUser" method="post">
+                                    <form class="align-self-end" name="addPoke" action="/addToUser?pok=${i.pokemon}&rol=${i.role}" method="post">
                                         <button type="submit" class="btn btn-outline-secondary btn-sm">
                                             <i class="bi bi-heart"></i>  Add to Favorites
                                         </button>

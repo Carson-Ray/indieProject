@@ -98,12 +98,13 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 session.setAttribute("userName", userName);
 
+                List<UserPokemon> userPokes = new ArrayList<>();
+
                 if (userExists(userName)) {
                     logger.info("User " + userName + "exists");
                     User user = getUser(userName);
 
                     List<UserPokemon> pokes = pokeDao.getAll();
-                    List<UserPokemon> userPokes = new ArrayList<>();
 
                     for(UserPokemon poke : pokes) {
                         if(poke.getUser().getId() == user.getId()) {
@@ -117,6 +118,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                     logger.info("User " + userName + "doesn't exist");
                     User newUser = new User(userName);
                     dao.insert(newUser);
+                    session.setAttribute("userPokemon", userPokes);
                     session.setAttribute("user", newUser);
                     req.getRequestDispatcher("/editProfile").forward(req, resp);
                 }
