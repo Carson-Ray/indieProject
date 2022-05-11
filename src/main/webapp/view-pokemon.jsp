@@ -4,24 +4,15 @@
 <c:import url="head.jsp"/>
 <c:import url="navbar.jsp"/>
 <body>
-<main>
-    <div class="container-fluid">
+<div class="container-fluid">
+    <main class="flex-fill">
         <div class="mx-auto p-5">
             <div class="card bg-dark text-light w-50 align-items-stretch mx-auto">
-                <div class="card-header">
-                    <c:if test="${userName != null}">
-                        <form class="align-self-end" name="addPoke" action="/addToUser" method="post">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-heart"></i>  Add to Favorites
-                            </button>
-                        </form>
-                    </c:if>
-                </div>
-                <div class="card-body">
                     <c:forEach items="${allPokemon}" var="i">
                         <c:if test="${i.pokemon == value}">
+                            <div class="card-body">
                             <h1 class="card-title"><strong>${i.pokemon}</strong></h1>
-                            <h6 class="card-subtitle mb-2 mb-3 text-muted"><em>the ${i.role}</em></h6>
+                            <h6 class="card-subtitle mb-2 mb-3 text-muted"><em>${i.role}</em></h6>
                             <div class="table-responsive">
                                 <table class="card-table table-striped text-center">
                                     <tbody>
@@ -48,14 +39,24 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
+                            <div class="card-footer">
+                                <c:if test="${userName != null}">
+                                    <form name="addPoke" action="/addToUser" method="post">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-heart"></i>  Add to Favorites
+                                        </button>
+                                    </form>
+                                </c:if>
+                            </div>
                         </c:if>
                     </c:forEach>
-                </div>
             </div>
         </div>
-    </div>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</div>
 <c:import url="footer.jsp"/>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

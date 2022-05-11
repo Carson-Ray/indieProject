@@ -61,8 +61,10 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     String POOL_ID;
     Keys jwks;
     GenericDao<User> dao = new GenericDao<>(User.class);
+    GenericDao<UserPokemon> pokeDao = new GenericDao<>(UserPokemon.class);
     GetPokemon api;
     List<APIPokemon> allPokemon = new ArrayList<>();
+    List<UserPokemon> userPokes = new ArrayList<>();
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -96,12 +98,18 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 session.setAttribute("userName", userName);
 
-                //callApi();
-                //session.setAttribute("allPokemon", allPokemon);
-
                 if (userExists(userName)) {
                     logger.info("User " + userName + "exists");
                     User user = getUser(userName);
+
+                    List<UserPokemon> pokes = pokeDao.getAll();
+
+                    for(UserPokemon poke : pokes) {
+                        if(poke.getUser().getId() == user.getId()) {
+                            userPokes.add(poke);
+                        }
+                    }
+                    session.setAttribute("userPokemon", userPokes);
                     session.setAttribute("user", user);
                     req.getRequestDispatcher("index.jsp").forward(req, resp);
                 } else {
