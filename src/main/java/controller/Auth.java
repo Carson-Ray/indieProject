@@ -64,7 +64,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     GenericDao<UserPokemon> pokeDao = new GenericDao<>(UserPokemon.class);
     GetPokemon api;
     List<APIPokemon> allPokemon = new ArrayList<>();
-    List<UserPokemon> userPokes = new ArrayList<>();
+
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -103,6 +103,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                     User user = getUser(userName);
 
                     List<UserPokemon> pokes = pokeDao.getAll();
+                    List<UserPokemon> userPokes = new ArrayList<>();
 
                     for(UserPokemon poke : pokes) {
                         if(poke.getUser().getId() == user.getId()) {

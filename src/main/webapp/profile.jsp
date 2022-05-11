@@ -16,13 +16,13 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="text-right">Profile Settings</h4>
                             </div>
-                            <form action="/updateProfile" method="post">
+                            <form class="form" action="/updateProfile" method="post">
                                 <div class="row mt-2">
-                                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value="${firstName}"></div>
-                                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="${lastName}" placeholder="surname"></div>
+                                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" name="firstName" value="${firstName}"></div>
+                                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" name="lastName" value="${lastName}" placeholder="surname"></div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter email" value="${email}"></div>
+                                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter email" name="email" value="${email}"></div>
                                 </div>
                                 <div class="mt-5 text-center"><button class="btn btn-success" type="submit">Save Profile</button></div>
                             </form>
@@ -34,12 +34,17 @@
 </div>
         </c:when>
         <c:otherwise>
-            <section class="section about-section gray-bg" id="about">
+            <section class="section about-section bg-light p-3" id="about">
                 <div class="container">
                     <div class="row align-items-center mb-5">
                         <div class="col">
                             <div class="about-text go-to">
+                                <div class="row">
                                 <h3 class="dark-color">My Profile</h3>
+                                    <form action="/editProfile" method="post">
+                                        <button class="btn btn-success" type="submit">Edit</button>
+                                    </form>
+                                </div>
                                 <div class="row about-list">
                                     <div class="col-md-6">
                                         <div class="media">
