@@ -7,24 +7,25 @@
 <main>
     <div class="container-fluid">
         <div class="mx-auto p-5">
-            <div class="card bg-dark text-light w-50 align-items-stretch mx-auto">
-                <div class="card-header">
-                    <c:if test="${userName != null}">
-                        <form class="align-self-end" name="addPoke" action="/addToUser" method="post">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-heart"></i>  Add to Favorites
-                            </button>
-                        </form>
-                    </c:if>
-                </div>
-                <div class="card-body">
-                    <c:forEach items="${allPokemon}" var="i">
-                        <c:if test="${i.pokemon == value}">
-                            <h1 class="card-title"><strong>${i.pokemon}</strong></h1>
-                            <h6 class="card-subtitle mb-2 mb-3 text-muted"><em>the ${i.role}</em></h6>
-                            <div class="table-responsive">
-                                <table class="card-table table-striped text-center">
-                                    <tbody>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <c:forEach items="${allPokemon}" var="i">
+                    <div class="col">
+                        <div class="card bg-dark text-light w-100 align-items-stretch">
+                            <div class="card-header">
+                                <c:if test="${userName != null}">
+                                    <form class="align-self-end" name="addPoke" action="/addToUser" method="post">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-heart"></i>  Add to Favorites
+                                        </button>
+                                    </form>
+                                </c:if>
+                            </div>
+                            <div class="card-body">
+                                <h1 class="card-title"><strong>${i.pokemon}</strong></h1>
+                                <h6 class="card-subtitle mb-2 mb-3 text-muted"><em>the ${i.role}</em></h6>
+                                <div class="table-responsive">
+                                    <table class="card-table table-striped text-center">
+                                        <tbody>
                                         <tr>
                                             <th scope="row">Attack</th>
                                             <td>${i.attack}</td>
@@ -45,12 +46,13 @@
                                             <th scope="row">SpDefense</th>
                                             <td>${i.spDefense}</td>
                                         </tr>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </c:if>
-                    </c:forEach>
-                </div>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </div>

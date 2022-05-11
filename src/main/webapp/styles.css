@@ -10,3 +10,6 @@
 thead.allHeader {
     height: 100px;
 }
+body {
+    background-image: url("background.jpg");
+}
