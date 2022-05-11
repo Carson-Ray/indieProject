@@ -98,27 +98,32 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 session.setAttribute("userName", userName);
 
-                Set<UserPokemon> userPokes = new Set<UserPokemon>();
 
+                Set<UserPokemon> s = new HashSet<>();
                 if (userExists(userName)) {
                     logger.info("User " + userName + "exists");
                     User user = getUser(userName);
 
                     List<UserPokemon> pokes = pokeDao.getAll();
-
+                    List<UserPokemon> up = new ArrayList<>();
                     for(UserPokemon poke : pokes) {
-                        if(poke.getUser().getId() == user.getId()) {
-                            userPokes.add(poke);
+                        if(poke.getUser().equals(user)) {
+                            up.add(poke);
                         }
                     }
-                    session.setAttribute("userPokemon", userPokes);
+                    Set<UserPokemon> userPokes = new HashSet<>(up);
+                    up.clear();
+                    up.addAll(userPokes);
+
+
+                    session.setAttribute("userPokemon", up);
                     session.setAttribute("user", user);
                     req.getRequestDispatcher("index.jsp").forward(req, resp);
                 } else {
                     logger.info("User " + userName + "doesn't exist");
                     User newUser = new User(userName);
                     dao.insert(newUser);
-                    session.setAttribute("userPokemon", userPokes);
+                    session.setAttribute("userPokemon", s);
                     session.setAttribute("user", newUser);
                     req.getRequestDispatcher("/editProfile").forward(req, resp);
                 }

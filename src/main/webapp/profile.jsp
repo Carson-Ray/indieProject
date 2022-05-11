@@ -76,6 +76,9 @@
                                         <div class="count-data text-center">
                                             <h6>${poke.name}</h6>
                                             <p class="m-0px font-w-600">${poke.role}</p>
+                                            <form method="post" action="/remove?tbrn=${poke.id}">
+                                                <button class="btn" type="submit"><i class="bi bi-trash3-fill"></i></button>
+                                            </form>
                                         </div>
                                     </div>
                                 </c:forEach>

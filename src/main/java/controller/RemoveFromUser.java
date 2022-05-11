@@ -13,14 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 @WebServlet(
-        urlPatterns = {"/addToUser"}
+        urlPatterns = {"/remove"}
 )
 
-public class AddToUser extends HttpServlet {
+public class RemoveFromUser extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
     GenericDao<User> dao = new GenericDao<>(User.class);
@@ -33,13 +34,19 @@ public class AddToUser extends HttpServlet {
         List<UserPokemon> userPokes = (List<UserPokemon>) req.getSession().getAttribute("userPokemon");
         logger.info("user " + user);
 
-        UserPokemon newPokemon = new UserPokemon(req.getParameter("pok"), req.getParameter("rol"), user);
+        UserPokemon tbd = new UserPokemon();
+        for (Iterator<UserPokemon> iterator = userPokes.iterator(); iterator.hasNext(); ) {
+            UserPokemon poke = iterator.next();
+            if(poke.getId() == Integer.parseInt(req.getParameter("tbrn"))) {
+                tbd = pokeDao.getById(poke.getId());
+                pokeDao.delete(tbd);
+            }
+        }
+        userPokes.remove(tbd);
+        req.getSession().setAttribute("userPokemon", userPokes);
 
-                pokeDao.saveOrUpdate(newPokemon);
-                userPokes.add(newPokemon);
-                req.getSession().setAttribute("userPokemon", userPokes);
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
-                dispatcher.forward(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/profile.jsp");
+        dispatcher.forward(req, resp);
     }
 
 }
