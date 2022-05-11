@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Remove from user.
+ */
 @WebServlet(
         urlPatterns = {"/remove"}
 )
@@ -24,7 +27,13 @@ import java.util.Set;
 public class RemoveFromUser extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    /**
+     * The Dao.
+     */
     GenericDao<User> dao = new GenericDao<>(User.class);
+    /**
+     * The Poke dao.
+     */
     GenericDao<UserPokemon> pokeDao = new GenericDao<>(UserPokemon.class);
 
     @Override

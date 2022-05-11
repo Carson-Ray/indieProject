@@ -23,15 +23,21 @@ import entity.*;
 public class GetPokemon implements PropertiesLoader {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    /**
+     * All pokemon.
+     */
     List<APIPokemon> allPokemon;
 
-    public static void main(String[] args) {
-        GetPokemon test = new GetPokemon();
-        test.requestAPI();
-    }
-
+    /**
+     * Get pokemon.
+     */
     public void GetPokemon() {}
 
+    /**
+     * Request api list.
+     *
+     * @return the list
+     */
     public List<APIPokemon> requestAPI() {
         allPokemon = new ArrayList<>();
         callAPI();
@@ -41,6 +47,9 @@ public class GetPokemon implements PropertiesLoader {
         return allPokemon;
     }
 
+    /**
+     * Call api.
+     */
     public void callAPI() {
         try {
             URL url = new URL("https://z7nskb75ye.execute-api.us-east-2.amazonaws.com/getAll/pokemon");//your url i.e fetch data from .
@@ -60,7 +69,7 @@ public class GetPokemon implements PropertiesLoader {
                 String object = array.getJSONObject(i).toString();
                 ObjectMapper mapper = new ObjectMapper();
                 APIPokemon newMon = mapper.readValue(object, APIPokemon.class);
-//                logger.info(newMon.getPokemon());
+                logger.info(newMon.getPokemon());
                 APIPokemon pokemon = new APIPokemon(
                         newMon.getRole(),
                         newMon.getPokemon(),
@@ -70,11 +79,11 @@ public class GetPokemon implements PropertiesLoader {
                         newMon.getSpAttack(),
                         newMon.getSpDefense()
                 );
-                //logger.info(newMon);
+                logger.info(newMon);
                 allPokemon.add(pokemon);
             }
             for(APIPokemon mon : allPokemon) {
-//                logger.info(mon.getPokemon());
+                logger.info(mon.getPokemon());
             }
             conn.disconnect();
 
@@ -83,56 +92,4 @@ public class GetPokemon implements PropertiesLoader {
         }
 
     }
-
-//        public void GetAllPokemon() {
-//        loadProperties();
-//        ApiGatewayClient apiGateway = ApiGatewayClient.builder()
-//                .region(region)
-//                .build();
-//
-//        try {
-//            GetMethodRequest methodRequest = GetMethodRequest.builder()
-//                    .httpMethod(properties.getProperty("http.method"))
-//                    .restApiId(properties.getProperty("api.id"))
-//                    .resourceId(properties.getProperty("resource.id"))
-//                    .build();
-//
-//            GetMethodResponse response = apiGateway.getMethod(methodRequest);
-//            Map<String, String> map = response.requestModels();
-//            for (Map.Entry<String, String> mapping : map.entrySet()) {
-//                logger.info(mapping.getValue());
-//            }
-//
-//            Map<String, MethodResponse> details = response.methodResponses();
-//            for (Map.Entry<String,MethodResponse> entry : details.entrySet()) {
-//                logger.info("Key = " + entry.getKey() +
-//                        ", Value = " + entry.getValue());
-//                List<Object> list =  new ArrayList();
-//                list.add(entry.getValue().responseModels().values().toArray());
-//                for (Object item : list) {
-//                    logger.info(item.toString());
-//                }
-//            }
-//
-//
-//        } catch (ApiGatewayException e) {
-//            logger.error(e.awsErrorDetails().errorMessage());
-//            System.exit(1);
-//        }
-//        }
-
-//    private void loadProperties() {
-//        try {
-//            properties = loadProperties("/cognito.properties");
-//            API_ID = properties.getProperty("api.id");
-//            RESOURCE_ID = properties.getProperty("resource.id");
-//            HTTP_METHOD = properties.getProperty("http.method");
-//        } catch (IOException ioException) {
-//            logger.error("Cannot load properties..." + ioException.getMessage(), ioException);
-//        } catch (Exception e) {
-//            logger.error("Error loading properties" + e.getMessage(), e);
-//        }
-//    }
-
-
 }

@@ -34,6 +34,13 @@ public class UserPokemon {
     public UserPokemon() {
     }
 
+    /**
+     * Instantiates a new User pokemon.
+     *
+     * @param name the name
+     * @param role the role
+     * @param user the user
+     */
     public UserPokemon(String name, String role, User user) {
         this.name = name;
         this.role = role;

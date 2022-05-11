@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Add to user.
+ */
 @WebServlet(
         urlPatterns = {"/addToUser"}
 )
@@ -23,7 +26,13 @@ import java.util.Set;
 public class AddToUser extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    /**
+     * The Dao.
+     */
     GenericDao<User> dao = new GenericDao<>(User.class);
+    /**
+     * The Poke dao.
+     */
     GenericDao<UserPokemon> pokeDao = new GenericDao<>(UserPokemon.class);
 
     @Override

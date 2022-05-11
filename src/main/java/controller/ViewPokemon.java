@@ -16,6 +16,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type View pokemon.
+ */
 @WebServlet(
         urlPatterns = {"/viewPokemon"}
 )
@@ -23,6 +26,9 @@ import java.util.List;
 public class ViewPokemon extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    /**
+     * The Mon.
+     */
     APIPokemon mon;
 
 

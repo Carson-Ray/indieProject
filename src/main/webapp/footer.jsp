@@ -20,7 +20,7 @@
             <p>
                 <small><em>Stay tuned for more...</em></small>
             </p>
-            <p>© 2022 Copyright Carson Roedl</p>
+            <p>2022 Copyright Carson Roedl</p>
         </section>
     </div>
 </footer>

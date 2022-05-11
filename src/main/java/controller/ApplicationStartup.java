@@ -3,21 +3,16 @@ package controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import entity.*;
-import controller.*;
 import services.*;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Application startup.
+ */
 @WebListener
 public class ApplicationStartup implements HttpSessionListener {
 
@@ -32,7 +27,5 @@ public class ApplicationStartup implements HttpSessionListener {
     }
 
     @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
-
-    }
+    public void sessionDestroyed(HttpSessionEvent se) {}
 }

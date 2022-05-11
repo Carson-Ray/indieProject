@@ -32,15 +32,17 @@ A casual player is looking to be more effective while playing the game with thei
 They think a good start would be to have some general knowledge of stat values of the 
 different characters. The site they are looking for would deliver, at minimum, the stat values
 in a comprehensive table that they are able to easily read as a reference point. Similar to the
-seasoned player, the ability to create, save, and delete characters is important so
+seasoned player, the ability to find, save, and delete characters is important so
 that they are able to keep track of their characters/battles.
 
 #### Technologies
-*IntelliJ IDEA
-*AWS Elastic Beanstalk
-*AWS IAM
-*AWS API Gateway
-*AWS DynamoDB
+-IntelliJ IDEA
+-AWS Elastic Beanstalk
+-AWS IAM
+-AWS API Gateway
+-AWS DynamoDB
+-AWS Lambda
+-Bootstrap
 
 
 

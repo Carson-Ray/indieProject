@@ -7,6 +7,8 @@
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+/resources/cognito.properties
+/resources/apigateway.properties
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids

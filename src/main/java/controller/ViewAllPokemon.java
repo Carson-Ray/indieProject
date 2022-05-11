@@ -14,6 +14,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type View all pokemon.
+ */
 @WebServlet(
         urlPatterns = {"/viewAllPokemon"}
 )

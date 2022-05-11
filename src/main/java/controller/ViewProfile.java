@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type View profile.
+ */
 @WebServlet(
         urlPatterns = {"/viewProfile"}
 )
@@ -24,7 +27,13 @@ import java.util.List;
 public class ViewProfile extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
+    /**
+     * The User dao.
+     */
     GenericDao<User> userDao = new GenericDao<>(User.class);
+    /**
+     * The Poke dao.
+     */
     GenericDao<UserPokemon> pokeDao = new GenericDao<>(UserPokemon.class);
 
     @Override

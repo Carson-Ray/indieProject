@@ -14,6 +14,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Update profile.
+ */
 @WebServlet(
         urlPatterns = {"/updateProfile"}
 )

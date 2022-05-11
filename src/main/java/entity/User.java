@@ -27,10 +27,20 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
@@ -50,6 +60,11 @@ public class User {
     public User() {
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param userName the user name
+     */
     public User(String userName) {
         this.userName = userName;
     }
@@ -58,8 +73,9 @@ public class User {
      * Instantiates a new User.
      *
      * @param firstName the first name
-     * @param lastName the last name
-     * @param userName the user name
+     * @param lastName  the last name
+     * @param userName  the user name
+     * @param email     the email
      */
     public User(String firstName, String lastName, String userName, String email) {
         this.firstName = firstName;
