@@ -69,4 +69,23 @@ public class LogIn extends HttpServlet implements PropertiesLoader {
             resp.sendRedirect("/error.jsp");
         }
     }
+
+    /**
+     * Route to the aws-hosted cognito login page.
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO if properties weren't loaded properly, route to an error page
+        try {
+            String url = LOGIN_URL + "?response_type=code&client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL;
+            resp.sendRedirect(url);
+        } catch (Exception e) {
+            logger.error("Error loading properties" + e.getMessage(), e);
+            resp.sendRedirect("/error.jsp");
+        }
+    }
 }
