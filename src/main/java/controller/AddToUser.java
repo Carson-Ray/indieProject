@@ -39,7 +39,7 @@ public class AddToUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         User user = (User) req.getSession().getAttribute("user");
-        List<UserPokemon> userPokes = (List<UserPokemon>) req.getSession().getAttribute("userPokemon");
+        Set<UserPokemon> userPokes = (Set<UserPokemon>) req.getSession().getAttribute("userPokemon");
         logger.info("user " + user);
 
         UserPokemon newPokemon = new UserPokemon(req.getParameter("pok"), req.getParameter("rol"), user);

@@ -112,11 +112,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                         }
                     }
                     Set<UserPokemon> userPokes = new HashSet<>(up);
-                    up.clear();
-                    up.addAll(userPokes);
 
-
-                    session.setAttribute("userPokemon", up);
+                    session.setAttribute("userPokemon", userPokes);
                     session.setAttribute("user", user);
                     req.getRequestDispatcher("index.jsp").forward(req, resp);
                 } else {
